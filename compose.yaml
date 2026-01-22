@@ -1,0 +1,47 @@
+services:
+  vprodb:
+    build:
+      context: ./Docker-files/db
+    image: kubeivan/vprofiledb
+    container_name: vprodb
+    ports:
+      - 3306:3306
+    volumes: 
+      - vprodbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=vprodbpass
+
+  vproapp:
+    build:
+      context: ./Docker-files/app
+    image: kubeivan/vprofileapp
+    container_name: vproapp
+    ports:
+      - 8080:8080
+    volumes: 
+      - vproappdata:/usr/local/tomcat/webapps
+      
+  vprocache01:
+    image: memcached
+    container_name: vprocache01
+    ports:
+      - 11211:11211
+  vpromq01:
+    image: rabbitmq
+    container_name: vpromq01
+    ports:
+      - 11211:11211  
+    environment: 
+    - RABBITMQ_DEFAULT_USER=guest
+    - RABBITMQ_DEFAULT_PASS=guest    
+
+  vproweb:
+    build:
+      context: ./Docker-files/web
+    image: kubeivan/vprofileweb
+    container_name: vproweb
+    ports:
+      - 80:80    
+volumes:
+  vprodbdata: {}
+  vproappdata: {}
