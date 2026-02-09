@@ -19,4 +19,15 @@ spec:
         image: kubeivan/vprofileapp
         ports:
         - name: vproapp-port
+<<<<<<< HEAD
           containerPort: 8080
+=======
+          containerPort: 8080
+      initContainers:
+      - name: init-mydb
+        image: busybox
+        args: ['-c', 'until nslookup vprodb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
+      - name: init-memcache
+        image: busybox
+       args: ['-c', 'until nslookup vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
+>>>>>>> ca3f7885ade17ff91ad2e805bfb0f51147282a50

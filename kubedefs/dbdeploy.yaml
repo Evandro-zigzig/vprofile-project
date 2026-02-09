@@ -35,9 +35,18 @@ spec:
            claimName: db-pv-claim  
       
       initContainers:
+<<<<<<< HEAD
       - name: busybox
         image: busybox
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: vpro-db-data
         args: ["rm", "-rf", "/var/lib/mysql/lost+found"]
+=======
+        - name: busybox
+          image: busybox:latest
+          command: ["sh", "-c", "rm -rf /var/lib/mysql/lost+found"]
+          volumeMounts:
+            - name: vpro-db-data
+              mountPath: /var/lib/mysql
+>>>>>>> ca3f7885ade17ff91ad2e805bfb0f51147282a50
